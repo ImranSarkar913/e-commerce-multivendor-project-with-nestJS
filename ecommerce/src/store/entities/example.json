@@ -1,0 +1,47 @@
+// Using repository
+const store = await storeRepository.findOne({
+    where: { id: storeId },
+    relations: ['user'],
+  });
+  
+  // Using query builder
+  const store = await storeRepository
+    .createQueryBuilder('store')
+    .leftJoinAndSelect('store.user', 'user')
+    .where('store.id = :id', { id: storeId })
+    .getOne();
+  2. Find store by userId:
+  
+  
+  const store = await storeRepository.findOne({
+    where: { userId: 'some-uuid-here' },
+  });
+  3. Find all stores with users:
+  
+  
+  const stores = await storeRepository.find({
+    relations: ['user'],
+  });
+  4. Find store and select specific user fields:
+  
+  
+  const store = await storeRepository
+    .createQueryBuilder('store')
+    .leftJoin('store.user', 'user')
+    .addSelect(['user.id', 'user.email', 'user.name'])
+    .where('store.userId = :userId', { userId })
+    .getOne();
+  5. Check if user has a store:
+  
+  
+  const exists = await storeRepository.exists({
+    where: { userId },
+  });
+  6. Find store with condition on user:
+  
+  
+  const store = await storeRepository
+    .createQueryBuilder('store')
+    .innerJoinAndSelect('store.user', 'user')
+    .where('user.email = :email', { email: 'test@example.com' })
+    .getOne();

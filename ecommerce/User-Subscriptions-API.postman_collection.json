@@ -1,0 +1,244 @@
+{
+	"info": {
+		"_postman_id": "user-subscriptions-api-collection",
+		"name": "User Subscriptions API",
+		"description": "API collection for managing user subscriptions in the e-commerce platform",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000",
+			"type": "string"
+		},
+		{
+			"key": "userId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "subscriptionId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "userSubscriptionId",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Get All User Subscriptions",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/user-subscriptions",
+					"host": ["{{baseUrl}}"],
+					"path": ["user-subscriptions"]
+				},
+				"description": "Get all user subscriptions in the system"
+			},
+			"response": []
+		},
+		{
+			"name": "Subscribe User to Plan",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"if (jsonData.id) {",
+							"    pm.collectionVariables.set('userSubscriptionId', jsonData.id);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userId\": \"{{userId}}\",\n    \"subscriptionId\": \"{{subscriptionId}}\",\n    \"autoRenew\": true\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/user-subscriptions",
+					"host": ["{{baseUrl}}"],
+					"path": ["user-subscriptions"]
+				},
+				"description": "Subscribe a user to a subscription plan"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Subscription by ID",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/user-subscriptions/{{userSubscriptionId}}",
+					"host": ["{{baseUrl}}"],
+					"path": ["user-subscriptions", "{{userSubscriptionId}}"]
+				},
+				"description": "Get a specific user subscription by its ID"
+			},
+			"response": []
+		},
+		{
+			"name": "Get User's Subscriptions",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/user-subscriptions/user/{{userId}}",
+					"host": ["{{baseUrl}}"],
+					"path": ["user-subscriptions", "user", "{{userId}}"]
+				},
+				"description": "Get all subscriptions for a specific user"
+			},
+			"response": []
+		},
+		{
+			"name": "Get User's Active Subscription",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/user-subscriptions/user/{{userId}}/active",
+					"host": ["{{baseUrl}}"],
+					"path": ["user-subscriptions", "user", "{{userId}}", "active"]
+				},
+				"description": "Get the active subscription for a specific user"
+			},
+			"response": []
+		},
+		{
+			"name": "Check User Subscription Status",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/user-subscriptions/user/{{userId}}/status",
+					"host": ["{{baseUrl}}"],
+					"path": ["user-subscriptions", "user", "{{userId}}", "status"]
+				},
+				"description": "Check if a user has an active subscription (returns { isActive: boolean })"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Subscription",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"autoRenew\": false\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/user-subscriptions/{{userSubscriptionId}}",
+					"host": ["{{baseUrl}}"],
+					"path": ["user-subscriptions", "{{userSubscriptionId}}"]
+				},
+				"description": "Update a user subscription. Available fields: status (ACTIVE, EXPIRED, CANCELLED), autoRenew (boolean), endDate (ISO date string)"
+			},
+			"response": []
+		},
+		{
+			"name": "Renew Subscription",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/user-subscriptions/{{userSubscriptionId}}/renew",
+					"host": ["{{baseUrl}}"],
+					"path": ["user-subscriptions", "{{userSubscriptionId}}", "renew"]
+				},
+				"description": "Renew a subscription (extends by 30 days from current end date)"
+			},
+			"response": []
+		},
+		{
+			"name": "Cancel Subscription",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/user-subscriptions/{{userSubscriptionId}}/cancel",
+					"host": ["{{baseUrl}}"],
+					"path": ["user-subscriptions", "{{userSubscriptionId}}", "cancel"]
+				},
+				"description": "Cancel a user subscription (sets status to CANCELLED)"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Subscription",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/user-subscriptions/{{userSubscriptionId}}",
+					"host": ["{{baseUrl}}"],
+					"path": ["user-subscriptions", "{{userSubscriptionId}}"]
+				},
+				"description": "Permanently delete a user subscription record"
+			},
+			"response": []
+		}
+	]
+}

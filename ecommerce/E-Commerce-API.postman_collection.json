@@ -1,0 +1,1327 @@
+{
+	"info": {
+		"_postman_id": "e-com-collection-001",
+		"name": "E-Commerce API",
+		"description": "Complete API collection for the E-Commerce platform",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000",
+			"type": "string"
+		},
+		{
+			"key": "userId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "subscriptionId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "userSubscriptionId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "storeId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "storeSlug",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "categoryId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "category2Id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "categorySlug",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "productId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "product2Id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "productImageId",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "App",
+			"item": [
+				{
+					"name": "Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/",
+							"host": ["{{baseUrl}}"],
+							"path": [""]
+						},
+						"description": "Check if the API is running"
+					}
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Create User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.id) {",
+									"    pm.collectionVariables.set('userId', jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"password123\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"role\": \"CUSTOMER\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": ["{{baseUrl}}"],
+							"path": ["users"]
+						},
+						"description": "Create a new user.\n\nRoles available:\n- SYSTEM_ADMIN\n- CUSTOMER\n- VENDOR"
+					}
+				},
+				{
+					"name": "Create Vendor User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.id) {",
+									"    pm.collectionVariables.set('userId', jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"vendor@example.com\",\n  \"password\": \"password123\",\n  \"firstName\": \"Jane\",\n  \"lastName\": \"Smith\",\n  \"role\": \"VENDOR\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": ["{{baseUrl}}"],
+							"path": ["users"]
+						},
+						"description": "Create a new vendor user"
+					}
+				},
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": ["{{baseUrl}}"],
+							"path": ["users"]
+						},
+						"description": "Get all users"
+					}
+				}
+			]
+		},
+		{
+			"name": "Subscriptions",
+			"item": [
+				{
+					"name": "Create Subscription",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.id) {",
+									"    pm.collectionVariables.set('subscriptionId', jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Basic Plan\",\n  \"description\": \"Basic subscription plan with limited features\",\n  \"price\": 9.99,\n  \"currency\": \"USD\",\n  \"plan\": \"BASIC\",\n  \"status\": \"ACTIVE\",\n  \"autoRenew\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/subscriptions",
+							"host": ["{{baseUrl}}"],
+							"path": ["subscriptions"]
+						},
+						"description": "Create a new subscription plan.\n\nPlans available:\n- BASIC\n- STANDARD\n- PREMIUM\n\nStatus available:\n- ACTIVE\n- EXPIRED\n- CANCELLED\n- SUSPENDED"
+					}
+				},
+				{
+					"name": "Create Standard Subscription",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.id) {",
+									"    pm.collectionVariables.set('subscriptionId', jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Standard Plan\",\n  \"description\": \"Standard subscription plan with more features\",\n  \"price\": 19.99,\n  \"currency\": \"USD\",\n  \"plan\": \"STANDARD\",\n  \"status\": \"ACTIVE\",\n  \"autoRenew\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/subscriptions",
+							"host": ["{{baseUrl}}"],
+							"path": ["subscriptions"]
+						},
+						"description": "Create a standard subscription plan"
+					}
+				},
+				{
+					"name": "Create Premium Subscription",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.id) {",
+									"    pm.collectionVariables.set('subscriptionId', jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Premium Plan\",\n  \"description\": \"Premium subscription plan with all features\",\n  \"price\": 49.99,\n  \"currency\": \"USD\",\n  \"plan\": \"PREMIUM\",\n  \"status\": \"ACTIVE\",\n  \"autoRenew\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/subscriptions",
+							"host": ["{{baseUrl}}"],
+							"path": ["subscriptions"]
+						},
+						"description": "Create a premium subscription plan"
+					}
+				},
+				{
+					"name": "Get All Subscriptions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/subscriptions",
+							"host": ["{{baseUrl}}"],
+							"path": ["subscriptions"]
+						},
+						"description": "Get all subscription plans"
+					}
+				},
+				{
+					"name": "Get Subscription by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/subscriptions/{{subscriptionId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["subscriptions", "{{subscriptionId}}"]
+						},
+						"description": "Get a specific subscription plan by ID"
+					}
+				},
+				{
+					"name": "Update Subscription",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Updated Plan Name\",\n  \"description\": \"Updated description\",\n  \"price\": 14.99\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/subscriptions/{{subscriptionId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["subscriptions", "{{subscriptionId}}"]
+						},
+						"description": "Update a subscription plan"
+					}
+				},
+				{
+					"name": "Delete Subscription",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/subscriptions/{{subscriptionId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["subscriptions", "{{subscriptionId}}"]
+						},
+						"description": "Delete a subscription plan"
+					}
+				}
+			]
+		},
+		{
+			"name": "User Subscriptions",
+			"item": [
+				{
+					"name": "Subscribe User to Plan",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.id) {",
+									"    pm.collectionVariables.set('userSubscriptionId', jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"{{userId}}\",\n  \"subscriptionId\": \"{{subscriptionId}}\",\n  \"autoRenew\": true,\n  \"paymentId\": null\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/user-subscriptions",
+							"host": ["{{baseUrl}}"],
+							"path": ["user-subscriptions"]
+						},
+						"description": "Subscribe a user to a subscription plan"
+					}
+				},
+				{
+					"name": "Get All User Subscriptions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/user-subscriptions",
+							"host": ["{{baseUrl}}"],
+							"path": ["user-subscriptions"]
+						},
+						"description": "Get all user subscriptions"
+					}
+				},
+				{
+					"name": "Get User Subscription by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/user-subscriptions/{{userSubscriptionId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["user-subscriptions", "{{userSubscriptionId}}"]
+						},
+						"description": "Get a specific user subscription by ID"
+					}
+				},
+				{
+					"name": "Get Subscriptions by User ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/user-subscriptions/user/{{userId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["user-subscriptions", "user", "{{userId}}"]
+						},
+						"description": "Get all subscriptions for a specific user"
+					}
+				},
+				{
+					"name": "Get User Active Subscription",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/user-subscriptions/user/{{userId}}/active",
+							"host": ["{{baseUrl}}"],
+							"path": ["user-subscriptions", "user", "{{userId}}", "active"]
+						},
+						"description": "Get user's active subscription"
+					}
+				},
+				{
+					"name": "Check User Subscription Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/user-subscriptions/user/{{userId}}/status",
+							"host": ["{{baseUrl}}"],
+							"path": ["user-subscriptions", "user", "{{userId}}", "status"]
+						},
+						"description": "Check if user has an active subscription"
+					}
+				},
+				{
+					"name": "Update User Subscription",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"autoRenew\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/user-subscriptions/{{userSubscriptionId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["user-subscriptions", "{{userSubscriptionId}}"]
+						},
+						"description": "Update a user subscription"
+					}
+				},
+				{
+					"name": "Cancel User Subscription",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/user-subscriptions/{{userSubscriptionId}}/cancel",
+							"host": ["{{baseUrl}}"],
+							"path": ["user-subscriptions", "{{userSubscriptionId}}", "cancel"]
+						},
+						"description": "Cancel a user subscription"
+					}
+				},
+				{
+					"name": "Renew User Subscription",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/user-subscriptions/{{userSubscriptionId}}/renew",
+							"host": ["{{baseUrl}}"],
+							"path": ["user-subscriptions", "{{userSubscriptionId}}", "renew"]
+						},
+						"description": "Renew a user subscription (extend by 30 days)"
+					}
+				},
+				{
+					"name": "Delete User Subscription",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/user-subscriptions/{{userSubscriptionId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["user-subscriptions", "{{userSubscriptionId}}"]
+						},
+						"description": "Delete a user subscription record"
+					}
+				}
+			]
+		},
+		{
+			"name": "Stores",
+			"item": [
+				{
+					"name": "Create Store",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.id) {",
+									"    pm.collectionVariables.set('storeId', jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"{{userId}}\",\n  \"name\": \"My Awesome Store\",\n  \"slug\": \"my-awesome-store\",\n  \"description\": \"This is my store description\",\n  \"contactEmail\": \"store@example.com\",\n  \"contactPhone\": \"+1234567890\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/stores",
+							"host": ["{{baseUrl}}"],
+							"path": ["stores"]
+						},
+						"description": "Create a new store (Vendor only)"
+					}
+				},
+				{
+					"name": "Get All Stores",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/stores",
+							"host": ["{{baseUrl}}"],
+							"path": ["stores"]
+						},
+						"description": "Get all active stores (Public)"
+					}
+				},
+				{
+					"name": "Get My Store",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/stores/my-store",
+							"host": ["{{baseUrl}}"],
+							"path": ["stores", "my-store"]
+						},
+						"description": "Get vendor's own store (Requires auth)"
+					}
+				},
+				{
+					"name": "Update My Store",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"{{userId}}\",\n  \"name\": \"Updated Store Name\",\n  \"description\": \"Updated store description\",\n  \"logo\": \"https://example.com/logo.png\",\n  \"contactEmail\": \"updated@example.com\",\n  \"contactPhone\": \"+9876543210\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/stores/my-store",
+							"host": ["{{baseUrl}}"],
+							"path": ["stores", "my-store"]
+						},
+						"description": "Update vendor's own store.\n\nStatus options:\n- PENDING_APPROVAL\n- ACTIVE\n- INACTIVE\n- SUSPENDED\n- REJECTED"
+					}
+				},
+				{
+					"name": "Get Store by Slug",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/stores/my-awesome-store",
+							"host": ["{{baseUrl}}"],
+							"path": ["stores", "my-awesome-store"]
+						},
+						"description": "Get a store by its slug (Public)"
+					}
+				}
+			]
+		},
+		{
+			"name": "Admin - Stores",
+			"item": [
+				{
+					"name": "Get All Stores (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/admin/stores",
+							"host": ["{{baseUrl}}"],
+							"path": ["admin", "stores"]
+						},
+						"description": "Get all stores with filters (Admin only)"
+					}
+				},
+				{
+					"name": "Get Store by ID (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/admin/stores/{{storeId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["admin", "stores", "{{storeId}}"]
+						},
+						"description": "Get a store by ID (Admin only)"
+					}
+				},
+				{
+					"name": "Update Store (Admin)",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"{{userId}}\",\n  \"name\": \"Admin Updated Store\",\n  \"status\": \"ACTIVE\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/admin/stores/{{storeId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["admin", "stores", "{{storeId}}"]
+						},
+						"description": "Update a store (Admin only)"
+					}
+				},
+				{
+					"name": "Approve Store (Admin)",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/admin/stores/{{storeId}}/approve",
+							"host": ["{{baseUrl}}"],
+							"path": ["admin", "stores", "{{storeId}}", "approve"]
+						},
+						"description": "Approve a pending store (Admin only)"
+					}
+				},
+				{
+					"name": "Reject Store (Admin)",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/admin/stores/{{storeId}}/reject",
+							"host": ["{{baseUrl}}"],
+							"path": ["admin", "stores", "{{storeId}}", "reject"]
+						},
+						"description": "Reject a pending store (Admin only)"
+					}
+				},
+				{
+					"name": "Delete Store (Admin)",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/admin/stores/{{storeId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["admin", "stores", "{{storeId}}"]
+						},
+						"description": "Delete a store (Admin only)"
+					}
+				}
+			]
+		},
+		{
+			"name": "Categories (Public)",
+			"item": [
+				{
+					"name": "Get All Categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/categories",
+							"host": ["{{baseUrl}}"],
+							"path": ["categories"]
+						},
+						"description": "Get all active root categories with children"
+					}
+				},
+				{
+					"name": "Get Category by Slug",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/categories/{{categorySlug}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["categories", "{{categorySlug}}"]
+						},
+						"description": "Get a category by its slug"
+					}
+				},
+				{
+					"name": "Get Products by Category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/categories/{{categorySlug}}/products?page=1&limit=20",
+							"host": ["{{baseUrl}}"],
+							"path": ["categories", "{{categorySlug}}", "products"],
+							"query": [
+								{ "key": "page", "value": "1" },
+								{ "key": "limit", "value": "20" }
+							]
+						},
+						"description": "Get published products in a category by slug with pagination"
+					}
+				}
+			]
+		},
+		{
+			"name": "Admin - Categories",
+			"item": [
+				{
+					"name": "Get All Categories (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/admin/categories",
+							"host": ["{{baseUrl}}"],
+							"path": ["admin", "categories"]
+						},
+						"description": "List all categories including inactive (Admin only)"
+					}
+				},
+				{
+					"name": "Get Category by ID (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/admin/categories/{{categoryId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["admin", "categories", "{{categoryId}}"]
+						},
+						"description": "Get a category by ID (Admin only)"
+					}
+				},
+				{
+					"name": "Create Category",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.id) {",
+									"    pm.collectionVariables.set('categoryId', jsonData.id);",
+									"}",
+									"if (jsonData.slug) {",
+									"    pm.collectionVariables.set('categorySlug', jsonData.slug);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Electronics\",\n  \"description\": \"Electronic gadgets and devices\",\n  \"isActive\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/admin/categories",
+							"host": ["{{baseUrl}}"],
+							"path": ["admin", "categories"]
+						},
+						"description": "Create a new category (Admin only)"
+					}
+				},
+				{
+					"name": "Create Second Category",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.id) {",
+									"    pm.collectionVariables.set('category2Id', jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Clothing\",\n  \"description\": \"Apparel and accessories\",\n  \"isActive\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/admin/categories",
+							"host": ["{{baseUrl}}"],
+							"path": ["admin", "categories"]
+						},
+						"description": "Create a second category (Admin only)"
+					}
+				},
+				{
+					"name": "Update Category",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Electronics & Gadgets\",\n  \"description\": \"Updated description\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/admin/categories/{{categoryId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["admin", "categories", "{{categoryId}}"]
+						},
+						"description": "Update a category (Admin only)"
+					}
+				},
+				{
+					"name": "Delete Category",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/admin/categories/{{categoryId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["admin", "categories", "{{categoryId}}"]
+						},
+						"description": "Delete a category (Admin only)"
+					}
+				}
+			]
+		},
+		{
+			"name": "Products - Store Owner",
+			"item": [
+				{
+					"name": "Create Product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.id) {",
+									"    pm.collectionVariables.set('productId', jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"{{userId}}\",\n  \"name\": \"Wireless Headphones\",\n  \"description\": \"Premium noise-cancelling wireless headphones\",\n  \"price\": 99.99,\n  \"compareAtPrice\": 149.99,\n  \"sku\": \"WH-001\",\n  \"quantity\": 50,\n  \"categoryIds\": [\"{{categoryId}}\"]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/stores/my-store/products",
+							"host": ["{{baseUrl}}"],
+							"path": ["stores", "my-store", "products"]
+						},
+						"description": "Create a new product in vendor's store"
+					}
+				},
+				{
+					"name": "Create Second Product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.id) {",
+									"    pm.collectionVariables.set('product2Id', jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"{{userId}}\",\n  \"name\": \"USB-C Cable\",\n  \"description\": \"Fast charging USB-C cable 2m\",\n  \"price\": 12.50,\n  \"sku\": \"USB-C-002\",\n  \"quantity\": 200,\n  \"categoryIds\": [\"{{categoryId}}\", \"{{category2Id}}\"]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/stores/my-store/products",
+							"host": ["{{baseUrl}}"],
+							"path": ["stores", "my-store", "products"]
+						},
+						"description": "Create a second product in vendor's store"
+					}
+				},
+				{
+					"name": "List Own Products",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"{{userId}}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/stores/my-store/products",
+							"host": ["{{baseUrl}}"],
+							"path": ["stores", "my-store", "products"]
+						},
+						"description": "Get all products for the vendor's store (requires userId in body)"
+					}
+				},
+				{
+					"name": "Get Product by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/stores/my-store/products/{{productId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["stores", "my-store", "products", "{{productId}}"]
+						},
+						"description": "Get a single product by ID"
+					}
+				},
+				{
+					"name": "Update Product",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"{{userId}}\",\n  \"name\": \"Wireless Headphones Pro\",\n  \"price\": 119.99,\n  \"isFeatured\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/stores/my-store/products/{{productId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["stores", "my-store", "products", "{{productId}}"]
+						},
+						"description": "Update a product's details"
+					}
+				},
+				{
+					"name": "Add Image to Product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.images && jsonData.images.length > 0) {",
+									"    var lastImage = jsonData.images[jsonData.images.length - 1];",
+									"    pm.collectionVariables.set('productImageId', lastImage.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"{{userId}}\",\n  \"url\": \"https://example.com/images/headphones-front.jpg\",\n  \"altText\": \"Headphones front view\",\n  \"isPrimary\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/stores/my-store/products/{{productId}}/images",
+							"host": ["{{baseUrl}}"],
+							"path": ["stores", "my-store", "products", "{{productId}}", "images"]
+						},
+						"description": "Add an image to a product"
+					}
+				},
+				{
+					"name": "Add Second Image to Product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"{{userId}}\",\n  \"url\": \"https://example.com/images/headphones-side.jpg\",\n  \"altText\": \"Headphones side view\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/stores/my-store/products/{{productId}}/images",
+							"host": ["{{baseUrl}}"],
+							"path": ["stores", "my-store", "products", "{{productId}}", "images"]
+						},
+						"description": "Add a second image to a product"
+					}
+				},
+				{
+					"name": "Remove Image from Product",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"{{userId}}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/stores/my-store/products/{{productId}}/images/{{productImageId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["stores", "my-store", "products", "{{productId}}", "images", "{{productImageId}}"]
+						},
+						"description": "Remove an image from a product"
+					}
+				},
+				{
+					"name": "Publish Product",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"{{userId}}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/stores/my-store/products/{{productId}}/publish",
+							"host": ["{{baseUrl}}"],
+							"path": ["stores", "my-store", "products", "{{productId}}", "publish"]
+						},
+						"description": "Publish a product (requires at least one image)"
+					}
+				},
+				{
+					"name": "Unpublish Product",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"{{userId}}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/stores/my-store/products/{{productId}}/unpublish",
+							"host": ["{{baseUrl}}"],
+							"path": ["stores", "my-store", "products", "{{productId}}", "unpublish"]
+						},
+						"description": "Unpublish a product (hide from public)"
+					}
+				},
+				{
+					"name": "Delete Product",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"{{userId}}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/stores/my-store/products/{{productId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["stores", "my-store", "products", "{{productId}}"]
+						},
+						"description": "Soft delete a product"
+					}
+				}
+			]
+		},
+		{
+			"name": "Products (Public)",
+			"item": [
+				{
+					"name": "List Published Products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/products?page=1&limit=20",
+							"host": ["{{baseUrl}}"],
+							"path": ["products"],
+							"query": [
+								{ "key": "page", "value": "1" },
+								{ "key": "limit", "value": "20" }
+							]
+						},
+						"description": "Get all published products with pagination"
+					}
+				},
+				{
+					"name": "Search Products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/products/search?q=headphones",
+							"host": ["{{baseUrl}}"],
+							"path": ["products", "search"],
+							"query": [
+								{ "key": "q", "value": "headphones" }
+							]
+						},
+						"description": "Search published products by keyword"
+					}
+				},
+				{
+					"name": "Search with Price Filter",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/products/search?minPrice=50&maxPrice=200&sortBy=price_asc",
+							"host": ["{{baseUrl}}"],
+							"path": ["products", "search"],
+							"query": [
+								{ "key": "minPrice", "value": "50" },
+								{ "key": "maxPrice", "value": "200" },
+								{ "key": "sortBy", "value": "price_asc" }
+							]
+						},
+						"description": "Search products with price range filter.\n\nsortBy options: price_asc, price_desc, created_at, name"
+					}
+				},
+				{
+					"name": "Search by Category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/products/search?categoryId={{categoryId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["products", "search"],
+							"query": [
+								{ "key": "categoryId", "value": "{{categoryId}}" }
+							]
+						},
+						"description": "Search products filtered by category ID"
+					}
+				},
+				{
+					"name": "Get Store Products (by Slug)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/stores/{{storeSlug}}/products",
+							"host": ["{{baseUrl}}"],
+							"path": ["stores", "{{storeSlug}}", "products"]
+						},
+						"description": "Get all published products for a store by its slug"
+					}
+				}
+			]
+		},
+		{
+			"name": "Admin - Products",
+			"item": [
+				{
+					"name": "List All Products (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/admin/products",
+							"host": ["{{baseUrl}}"],
+							"path": ["admin", "products"]
+						},
+						"description": "Get all products including drafts and hidden (Admin only)"
+					}
+				},
+				{
+					"name": "Get Product by ID (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/admin/products/{{productId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["admin", "products", "{{productId}}"]
+						},
+						"description": "Get a product by ID with store details (Admin only)"
+					}
+				},
+				{
+					"name": "Hide Product (Admin)",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/admin/products/{{productId}}/hide",
+							"host": ["{{baseUrl}}"],
+							"path": ["admin", "products", "{{productId}}", "hide"]
+						},
+						"description": "Hide a product from public view (Admin only)"
+					}
+				},
+				{
+					"name": "Unhide Product (Admin)",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/admin/products/{{productId}}/unhide",
+							"host": ["{{baseUrl}}"],
+							"path": ["admin", "products", "{{productId}}", "unhide"]
+						},
+						"description": "Unhide a product (Admin only)"
+					}
+				}
+			]
+		}
+	]
+}

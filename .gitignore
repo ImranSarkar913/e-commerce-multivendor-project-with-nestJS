@@ -1,0 +1,36 @@
+## Node modules
+node_modules/
+**/node_modules/
+
+## Build output
+dist/
+**/dist/
+
+## TypeScript
+*.tsbuildinfo
+
+## Environment
+.env
+ecommerce/.env
+.env.*
+
+## Logs
+logs
+*.log
+npm-debug.log*
+
+## Coverage
+coverage/
+
+## Editors
+.vscode/
+.idea/
+
+## OS
+.DS_Store
+Thumbs.db
+
+## Misc
+.nyc_output/
+.cache/
+*.tgz

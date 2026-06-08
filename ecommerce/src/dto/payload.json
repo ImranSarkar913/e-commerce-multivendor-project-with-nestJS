@@ -1,0 +1,218 @@
+{
+    "user": {
+      "createUser": {
+        "request": {
+          "email": "john.doe@example.com",
+          "password": "securePassword123",
+          "firstName": "John",
+          "lastName": "Doe",
+          "role": "CUSTOMER",
+          "link": "http://localhost:3000/api/v1/users"
+        },
+        "response": {
+          "id": "550e8400-e29b-41d4-a716-446655440000",
+          "email": "john.doe@example.com",
+          "firstName": "John",
+          "lastName": "Doe",
+          "role": "CUSTOMER",
+          "isActive": true,
+          "isSuspended": false,
+          "suspendedAt": null,
+          "suspendedBy": null,
+          "suspensionReason": null,
+          "createdAt": "2026-01-22T10:30:00.000Z",
+          "updatedAt": "2026-01-22T10:30:00.000Z"
+        }
+      },
+      "createVendor": {
+        "link": "http://localhost:3000/users",
+        "curl": "curl -X POST http://localhost:3000/users -H \"Content-Type: application/json\" -d \"{\\\"email\\\": \\\"vendor@example.com\\\", \\\"password\\\": \\\"securePassword123\\\", \\\"firstName\\\": \\\"Jane\\\", \\\"lastName\\\": \\\"Smith\\\", \\\"role\\\": \\\"VENDOR\\\"}\"",
+        "request": {
+          "email": "vendor@example.com",
+          "password": "securePassword123",
+          "firstName": "Jane",
+          "lastName": "Smith",
+          "role": "VENDOR"
+        },
+        "response": {
+          "id": "da21e501-a35c-4616-856b-469ef2422fb0",
+          "email": "vendor@example.com",
+          "firstName": "Jane",
+          "lastName": "Smith",
+          "role": "VENDOR",
+          "isActive": true,
+          "isSuspended": false,
+          "suspendedAt": null,
+          "suspendedBy": null,
+          "suspensionReason": null,
+          "createdAt": "2026-01-22T05:41:10.765Z",
+          "updatedAt": "2026-01-22T05:41:10.765Z"
+        }
+      },
+      "roles": ["SYSTEM_ADMIN", "CUSTOMER", "VENDOR"]
+    },
+  
+    "subscription": {
+      "createSubscription": {
+        "request": {
+          "name": "Premium Monthly Plan",
+          "description": "Access to all premium features with priority support",
+          "price": 29.99,
+          "currency": "USD",
+          "plan": "PREMIUM",
+          "status": "ACTIVE",
+          "autoRenew": true
+        },
+        "response": {
+          "id": "660e8400-e29b-41d4-a716-446655440001",
+          "name": "Premium Monthly Plan",
+          "description": "Access to all premium features with priority support",
+          "price": 29.99,
+          "currency": "USD",
+          "plan": "PREMIUM",
+          "status": "ACTIVE",
+          "startDate": "2026-01-22T00:00:00.000Z",
+          "endDate": "2026-02-22T00:00:00.000Z",
+          "autoRenew": true,
+          "createdAt": "2026-01-22T10:30:00.000Z",
+          "updatedAt": "2026-01-22T10:30:00.000Z"
+        }
+      },
+      "plans": ["BASIC", "STANDARD", "PREMIUM"],
+      "statuses": ["ACTIVE", "EXPIRED", "CANCELLED", "SUSPENDED"]
+    },
+  
+    "userSubscription": {
+      "createUserSubscription": {
+        "request": {
+          "userId": "550e8400-e29b-41d4-a716-446655440000",
+          "subscriptionId": "660e8400-e29b-41d4-a716-446655440001",
+          "autoRenew": true,
+          "paymentId": "770e8400-e29b-41d4-a716-446655440002"
+        },
+        "response": {
+          "id": "880e8400-e29b-41d4-a716-446655440003",
+          "userId": "550e8400-e29b-41d4-a716-446655440000",
+          "subscriptionId": "660e8400-e29b-41d4-a716-446655440001",
+          "startDate": "2026-01-22T00:00:00.000Z",
+          "endDate": "2026-02-22T00:00:00.000Z",
+          "status": "ACTIVE",
+          "autoRenew": true,
+          "paymentId": "770e8400-e29b-41d4-a716-446655440002",
+          "createdAt": "2026-01-22T10:30:00.000Z",
+          "updatedAt": "2026-01-22T10:30:00.000Z",
+          "user": {
+            "id": "550e8400-e29b-41d4-a716-446655440000",
+            "email": "john.doe@example.com",
+            "firstName": "John",
+            "lastName": "Doe"
+          },
+          "subscription": {
+            "id": "660e8400-e29b-41d4-a716-446655440001",
+            "name": "Premium Monthly Plan",
+            "price": 29.99,
+            "currency": "USD",
+            "plan": "PREMIUM"
+          }
+        }
+      },
+      "updateUserSubscription": {
+        "request": {
+          "status": "CANCELLED",
+          "autoRenew": false,
+          "endDate": "2026-02-22T00:00:00.000Z"
+        },
+        "response": {
+          "id": "880e8400-e29b-41d4-a716-446655440003",
+          "userId": "550e8400-e29b-41d4-a716-446655440000",
+          "subscriptionId": "660e8400-e29b-41d4-a716-446655440001",
+          "startDate": "2026-01-22T00:00:00.000Z",
+          "endDate": "2026-02-22T00:00:00.000Z",
+          "status": "CANCELLED",
+          "autoRenew": false,
+          "paymentId": "770e8400-e29b-41d4-a716-446655440002",
+          "createdAt": "2026-01-22T10:30:00.000Z",
+          "updatedAt": "2026-01-22T11:00:00.000Z"
+        }
+      },
+      "statuses": ["ACTIVE", "EXPIRED", "CANCELLED", "PENDING"]
+    },
+  
+    "store": {
+      "createStore": {
+        "link": "http://localhost:3000/api/v1/stores",
+        "curl": "curl -X POST http://localhost:3000/api/v1/stores -H \"Content-Type: application/json\" -d \"{\\\"userId\\\": \\\"550e8400-e29b-41d4-a716-446655440000\\\", \\\"name\\\": \\\"Tech Gadgets Store\\\", \\\"slug\\\": \\\"tech-gadgets-store\\\", \\\"description\\\": \\\"Your one-stop shop for the latest tech gadgets and accessories\\\", \\\"contactEmail\\\": \\\"contact@techgadgets.com\\\", \\\"contactPhone\\\": \\\"+1-555-123-4567\\\"}\"",
+        "request": {
+          "userId": "550e8400-e29b-41d4-a716-446655440000",
+          "name": "Tech Gadgets Store",
+          "slug": "tech-gadgets-store",
+          "description": "Your one-stop shop for the latest tech gadgets and accessories",
+          "contactEmail": "contact@techgadgets.com",
+          "contactPhone": "+1-555-123-4567"
+        },
+        "response": {
+          "id": "990e8400-e29b-41d4-a716-446655440004",
+          "userId": "550e8400-e29b-41d4-a716-446655440000",
+          "name": "Tech Gadgets Store",
+          "slug": "tech-gadgets-store",
+          "description": "Your one-stop shop for the latest tech gadgets and accessories",
+          "logo": null,
+          "status": "PENDING_APPROVAL",
+          "contactEmail": "contact@techgadgets.com",
+          "contactPhone": "+1-555-123-4567",
+          "createdAt": "2026-01-22T10:30:00.000Z",
+          "updatedAt": "2026-01-22T10:30:00.000Z"
+        }
+      },
+      "updateStore": {
+        "request": {
+          "userId": "550e8400-e29b-41d4-a716-446655440000",
+          "name": "Tech Gadgets Pro Store",
+          "description": "Premium tech gadgets and accessories with expert support",
+          "logo": "https://example.com/logos/tech-gadgets-pro.png",
+          "status": "ACTIVE",
+          "contactEmail": "support@techgadgetspro.com",
+          "contactPhone": "+1-555-987-6543"
+        },
+        "response": {
+          "id": "990e8400-e29b-41d4-a716-446655440004",
+          "userId": "550e8400-e29b-41d4-a716-446655440000",
+          "name": "Tech Gadgets Pro Store",
+          "slug": "tech-gadgets-store",
+          "description": "Premium tech gadgets and accessories with expert support",
+          "logo": "https://example.com/logos/tech-gadgets-pro.png",
+          "status": "ACTIVE",
+          "contactEmail": "support@techgadgetspro.com",
+          "contactPhone": "+1-555-987-6543",
+          "createdAt": "2026-01-22T10:30:00.000Z",
+          "updatedAt": "2026-01-22T12:00:00.000Z"
+        }
+      },
+      "searchStore": {
+        "request": {
+          "status": "ACTIVE",
+          "name": "Tech",
+          "slug": "tech-gadgets",
+          "contactEmail": "contact@techgadgets.com",
+          "contactPhone": "+1-555",
+          "search": "gadgets"
+        },
+        "response": [
+          {
+            "id": "990e8400-e29b-41d4-a716-446655440004",
+            "userId": "550e8400-e29b-41d4-a716-446655440000",
+            "name": "Tech Gadgets Pro Store",
+            "slug": "tech-gadgets-store",
+            "description": "Premium tech gadgets and accessories with expert support",
+            "logo": "https://example.com/logos/tech-gadgets-pro.png",
+            "status": "ACTIVE",
+            "contactEmail": "support@techgadgetspro.com",
+            "contactPhone": "+1-555-987-6543",
+            "createdAt": "2026-01-22T10:30:00.000Z",
+            "updatedAt": "2026-01-22T12:00:00.000Z"
+          }
+        ]
+      },
+      "statuses": ["PENDING_APPROVAL", "ACTIVE", "INACTIVE", "SUSPENDED", "REJECTED"]
+    }
+  }
