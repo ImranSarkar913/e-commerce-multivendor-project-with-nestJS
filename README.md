@@ -1,22 +1,27 @@
-# E-commerce API (NestJS)
+# NestJS E-commerce API
 
-This repository contains an E-commerce API built with NestJS and TypeORM. The main application is inside the `ecommerce/` folder.
+A production-style E-commerce API built with NestJS, TypeORM, and PostgreSQL.
 
-## Quick overview
+The main application lives in the `ecommerce/` folder. The root workspace provides convenience scripts for migrations and top-level TypeScript support.
 
-- **Framework:** NestJS
-- **ORM:** TypeORM
-- **Database:** PostgreSQL (recommended)
+## Key features
+
+- Modular NestJS architecture
+- PostgreSQL integration with TypeORM
+- Validation with `class-validator` and `class-transformer`
+- Environment-based configuration via `@nestjs/config`
+- Migration-driven database schema management
+- Unit and end-to-end test setup with Jest
 
 ## Prerequisites
 
 - Node.js 18+ (or compatible)
-- npm or yarn
-- PostgreSQL (or another DB supported by TypeORM)
+- npm
+- PostgreSQL
 
-## Install
+## Setup
 
-Install dependencies for the root (migration helpers) and the `ecommerce` app:
+From the repository root:
 
 ```bash
 npm install
@@ -24,22 +29,13 @@ cd ecommerce
 npm install
 ```
 
-## Run (development)
+## Environment configuration
 
-From the `ecommerce` folder:
+Create a `.env` file inside `ecommerce/` with your database and runtime settings.
 
-```bash
-cd ecommerce
-npm run start:dev
-```
+Example `ecommerce/.env`:
 
-The app uses `@nestjs/config` and `dotenv` — create a `.env` file in `ecommerce/` or set environment variables directly.
-
-## Environment variables (example)
-
-Create `ecommerce/.env` with values similar to:
-
-```
+```env
 PORT=3000
 NODE_ENV=development
 DB_HOST=localhost
@@ -49,13 +45,30 @@ DB_PASSWORD=postgres
 DB_NAME=ecommerce_db
 ```
 
-The project also includes a TypeORM data source at `ecommerce/typeorm-data-source.ts` which is used by migration scripts.
+## Running the app
 
-## Migrations
+Start the development server from the `ecommerce` folder:
 
-You can run and manage migrations from the repository root or from the `ecommerce` package:
+```bash
+cd ecommerce
+npm run start:dev
+```
 
-- From root (convenience scripts):
+The application listens on `process.env.PORT` or defaults to `3000`.
+
+## Build and production
+
+Build the application and run the compiled output:
+
+```bash
+cd ecommerce
+npm run build
+npm run start:prod
+```
+
+## Database migrations
+
+The project includes TypeORM migration scripts. Use these commands from the repository root:
 
 ```bash
 npm run migration:run
@@ -64,26 +77,16 @@ npm run migration:generate -- --name AddSomething
 npm run migration:create -- --name NewMigration
 ```
 
-- Or directly inside `ecommerce`:
+Or run migrations directly from the `ecommerce` package:
 
 ```bash
 cd ecommerce
 npm run migration:run
 ```
 
-The `ecommerce` package.json uses `typeorm-ts-node-commonjs` and points migrations at `./typeorm-data-source.ts`.
-
-## Build & Production
-
-```bash
-cd ecommerce
-npm run build
-npm run start:prod
-```
-
 ## Tests
 
-Run unit tests and e2e tests from `ecommerce`:
+Run tests from the `ecommerce` folder:
 
 ```bash
 cd ecommerce
@@ -91,33 +94,54 @@ npm run test
 npm run test:e2e
 ```
 
-## Project structure (high level)
+## Project structure
 
-- `ecommerce/src` - main application source
-  - `category/` - category module
-  - `product/` - product module
-  - `store/` - store module
-  - `user/`, `subscription/`, `user-subscription/` - domain modules
-  - `database/` - DB connection helpers
-  - `migrations/` - generated migrations
+- `ecommerce/src`
+  - `app.module.ts` - application root and module imports
+  - `main.ts` - bootstrap and global validation pipe
+  - `database/typeorm-connection-env.ts` - PostgreSQL connection helper
+  - `user/` - user domain module
+  - `subscription/` - subscription domain module
+  - `user-subscription/` - user subscription domain module
+  - `store/` - store domain module
+  - `category/` - category domain module
+  - `product/` - product domain module
+- `ecommerce/migrations/` - generated TypeORM migrations
+- `ecommerce/test/` - end-to-end tests
+- `ecommerce/typeorm-data-source.ts` - TypeORM CLI datasource config
 
-- `ecommerce/test` - e2e tests
-- `ecommerce/typeorm-data-source.ts` - TypeORM data source config
+## Available scripts
 
-## Useful scripts
+### Root scripts
 
-- Root (helpers for migrations): `npm run migration:run`, `migration:generate`, etc.
-- In `ecommerce/`:
-  - `npm run start:dev` — development server
-  - `npm run build` — build dist
-  - `npm run start:prod` — run built app
-  - `npm run test` — run unit tests
-  - `npm run test:e2e` — run e2e tests
+- `npm run migration:run` — run database migrations
+- `npm run migration:revert` — revert the last migration
+- `npm run migration:generate -- --name <name>` — generate a new migration
+- `npm run migration:create -- --name <name>` — create a new migration file
+- `npm run typecheck:root` — run TypeScript type checking at the workspace root
+
+### `ecommerce/` scripts
+
+- `npm run start:dev` — start the app in watch mode
+- `npm run build` — compile the app with NestJS
+- `npm run start:prod` — start the production build
+- `npm run lint` — run ESLint (fixes enabled)
+- `npm run test` — run Jest unit tests
+- `npm run test:e2e` — run end-to-end tests
+
+## Notes
+
+- The app uses `synchronize: false` in TypeORM configuration. Always apply schema changes through migrations.
+- `ecommerce/src/main.ts` enables global validation with `whitelist`, `forbidNonWhitelisted`, and `transform`.
+- The `ecommerce/README.md` currently contains the default NestJS starter content and is not specific to this project.
 
 ## Contributing
 
-Open an issue or submit a pull request. Follow existing code style and run tests before submitting.
+1. Fork the repository
+2. Install dependencies
+3. Add tests for new features or bug fixes
+4. Submit a pull request with a clear description of changes
 
 ## License
 
-See `ecommerce/package.json` for the package license information.
+This repository uses the license defined in `ecommerce/package.json`.
